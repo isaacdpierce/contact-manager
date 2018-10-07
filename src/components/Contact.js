@@ -2,24 +2,48 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class Contact extends Component {
+  state = {
+    showContactInfo: false
+  };
+
+  onShowClick = e => {
+    this.setState({ showContactInfo: !this.state.showContactInfo });
+  };
+
+  onDeleteClick = e => {};
+
   render() {
-    const { name, email, phone } = this.props;
+    const { name, email, phone } = this.props.contact;
+    const { showContactInfo } = this.state;
+
     return (
-      <div>
-        <h4>{name}</h4>
-        <ul>
-          <li>{email}</li>
-          <li>{phone}</li>
-        </ul>
+      <div className="card card-body mb-3">
+        <h4>
+          {name}{" "}
+          <i
+            onClick={this.onShowClick}
+            className="fas fa-sort-down"
+            style={{ cursor: "pointer" }}
+          />
+          <i
+            className="fas fa-times"
+            style={{ cursor: "pointer", float: "right", color: "red" }}
+            onClick={this.onDeleteClick}
+          />
+        </h4>
+        {showContactInfo ? (
+          <ul className="list-group">
+            <li className="list-group-item">{email}</li>
+            <li className="list-group-item">{phone}</li>
+          </ul>
+        ) : null}
       </div>
     );
   }
 }
 
 Contact.propTypes = {
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired
+  contact: PropTypes.object.isRequired
 };
 
 export default Contact;
